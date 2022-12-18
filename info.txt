@@ -1,0 +1,27 @@
+Frontend
+
+# instalando react
+npm install -g npx
+npm install -g yarn
+
+# criando projeto typescript
+npx create-react-app encuestafrontend --template typescript
+
+# startando o projeto
+npm start
+
+# instalando bibliotecas
+npm install
+npm update
+
+# dependencias, dentro da pasta encuestafrontend
+yarn add -D sass
+yarn add react-bootstrap bootstrap
+yarn add axios
+yarn add jwt-decode 
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
