@@ -1,4 +1,4 @@
-package br.com.purocodigo.encuestabackend.models.responses;
+package br.com.purocodigo.encuestabackend.models.requests;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

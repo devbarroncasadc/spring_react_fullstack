@@ -19,12 +19,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.purocodigo.encuestabackend.models.responses.UserLoginRequestModel;
+import br.com.purocodigo.encuestabackend.models.requests.UserLoginRequestModel;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-
-public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
+public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
@@ -33,13 +32,16 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException {
 
         try {
 
-            UserLoginRequestModel userModel = new ObjectMapper().readValue(request.getInputStream(), UserLoginRequestModel.class);
+            UserLoginRequestModel userModel = new ObjectMapper().readValue(request.getInputStream(),
+                    UserLoginRequestModel.class);
 
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userModel.getEmail(), userModel.getPassword(), new ArrayList<>()));
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userModel.getEmail(),
+                    userModel.getPassword(), new ArrayList<>()));
 
         } catch (IOException exception) {
             throw new RuntimeException(exception);
@@ -47,12 +49,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     }
 
     @Override
-    public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+    public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+            Authentication authentication) throws IOException, ServletException {
         String email = ((User) authentication.getPrincipal()).getUsername();
 
         String token = Jwts.builder()
-            .setSubject(email).setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_DATE))
-            .signWith(SignatureAlgorithm.HS512, SecurityConstants.getTokenSecret()).compact();
+                .setSubject(email)
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_DATE))
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.getTokenSecret()).compact();
 
         System.out.println(token);
 
@@ -64,6 +68,4 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
         response.flushBuffer();
     }
 
-    
-    
 }

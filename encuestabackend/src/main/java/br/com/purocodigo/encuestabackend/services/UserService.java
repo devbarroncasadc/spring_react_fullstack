@@ -10,7 +10,7 @@ public interface UserService extends UserDetailsService {
 
     public UserDetails loadUserByUsername(String email);
 
-    // public UserEntity getUser(String email);
+    public UserEntity getUser(String email);
 
     public UserEntity createUser(UserRegisterRequestModel user);
 }
