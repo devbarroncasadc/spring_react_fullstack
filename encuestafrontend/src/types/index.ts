@@ -3,3 +3,5 @@ export type User = {
     token: string,
     isAuthenticated: boolean
 };
+
+export type RouteType = "PRIVATE" | "PUBLIC" | "GUEST"

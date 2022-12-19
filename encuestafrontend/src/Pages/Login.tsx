@@ -9,6 +9,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 
 import React, { useState } from 'react';
+import { useAuthDispatch } from '../context/authContext';
 import { loginUser } from '../services/UserService';
 
 const Login = () => {
@@ -18,6 +19,8 @@ const Login = () => {
     const [error, setError] = useState("");
     const [sendingData, setSendingData] = useState(false);
 
+    const authDispatch = useAuthDispatch();
+
     const login = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         try {
@@ -25,6 +28,10 @@ const Login = () => {
             setError("");// limpando error
             const res = await loginUser(email, password);
             const token = res.data.token;
+            authDispatch({
+                type: 'login',
+                token
+            });
             setSendingData(false);
         } catch (errors: any) {
 
@@ -79,10 +86,9 @@ const Login = () => {
 
                             </Form>
 
-                            {/* <Alert key="danger1" className='mt-4' show={!!error} variant="danger">{error}</Alert> */}
                             <Alert className='mt-4' show={!!error} variant="danger">
                                 {error}
-                            </Alert>                            
+                            </Alert>
 
                         </Card.Body>
                     </Card>

@@ -8,7 +8,8 @@ import Spinner from 'react-bootstrap/Spinner';
 
 
 import React, { useState } from 'react';
-import { registerUser } from '../services/UserService';
+import { useAuthDispatch } from '../context/authContext';
+import { loginUser } from '../services/UserService';
 
 const Register = () => {
 
@@ -18,12 +19,19 @@ const Register = () => {
     const [errors, setErrors] = useState<any>({});
     const [sendingData, setSendingData] = useState(false);
 
+    const authDispatch = useAuthDispatch();
+
     const register = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         try {
             setSendingData(true);
-            await registerUser(name, email, password);
-            // redirecionar el usuario a el panel
+            const res = await loginUser(email, password);
+            const token = res.data.token;
+            authDispatch({
+                type: 'login',
+                token
+            });
+            setSendingData(false);
         } catch (errors: any) {
             setErrors(errors.response.data.errors);
             setSendingData(false);
@@ -84,8 +92,8 @@ const Register = () => {
                                             role="status"
                                             aria-hidden="true"
                                         ></Spinner>&nbsp;
-                                            <span>Creando cuenta...</span>
-                                        </>:
+                                        <span>Creando cuenta...</span>
+                                    </> :
                                         <>Crear cuenta</>
                                     }
                                 </Button>

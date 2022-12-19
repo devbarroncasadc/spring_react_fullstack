@@ -19,6 +19,8 @@ yarn add -D sass
 yarn add react-bootstrap bootstrap
 yarn add axios
 yarn add jwt-decode 
+yarn add immer
+yarn add react-router-dom @types/react-router-dom
 ---------------------------------
 ---------------------------------
 ---------------------------------
